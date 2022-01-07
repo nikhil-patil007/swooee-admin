@@ -39,13 +39,13 @@ def login(request):
 
 # ADD USER FORM :
 def adduserpage(request):
-    if 'id' in request.session:
-        disc =  {
-            'title':'Corona Admin | Add User Form',
-        }
-        return render(request, 'swooee/form_user.html',disc)
-    else:
-        return redirect("login")
+    # if 'id' in request.session:
+    disc =  {
+        'title':'Corona Admin | Add User Form',
+    }
+    return render(request, 'swooee/form_user.html',disc)
+    # else:
+    #     return redirect("login")
 
 # ADD CATEGORY FORM :
 def categorypage(request):
