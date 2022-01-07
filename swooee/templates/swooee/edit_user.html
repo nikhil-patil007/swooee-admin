@@ -1,0 +1,322 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include 'head_foot/header.html' %}
+  </head>
+  <body>
+    <div class="container-scroller">
+      <!-- partial:../../partials/_sidebar.html -->
+     {% include 'head_foot/sider.html' %}
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        {% include 'head_foot/head.html' %}
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title"> User Form </h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#">Users</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Users From elements</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="row">
+              <div class="col-12 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">User Form</h4>
+                    <form class="form-sample" action="{% url 'editeduser' slug=usr.slug %}" method='POST' enctype="multipart/form-data">{% csrf_token %}
+                      <p class="card-description"> User info </p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Username<span style='color:red'>&nbsp;*</span></label>
+                                    <div class="col-sm-9">
+                                    <input type="username" name='username' value='{{usr.username}}' class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Email<span style='color:red'>&nbsp;*</span></label>
+                                    <div class="col-sm-9">
+                                        <input type="email" name='email' value='{{usr.email}}' class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">First Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name='fname' value='{{usr.first_name}}' class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Last Name</label>
+                                    <div class="col-sm-9">
+                                        <input type='text' name='lname' value='{{usr.last_name}}' class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Password</label>
+                                    <div class="col-sm-9 password">
+                                        <div class="input-group col-xs-12">
+                                            <input type="password" name='password' value='{{usr.password}}' class="form-control password-input" />
+                                            <span class="input-group-append file-upload-browse btn btn-primary">
+                                                <i class='mdi mdi-eye password' style='margin-top : 5px' title='Show Password'></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Profile Image</label>
+                                    <div class="col-sm-9">
+                                    <input type="file" name="img" class="file-upload-default">
+                                    <div class="input-group col-xs-12">
+                                        <input type="text" class="form-control file-upload-info" value='{{usr.Image}}' disabled placeholder="Upload Image" required>
+                                        <span class="input-group-append">
+                                            <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                    {% if usr.checkbox == '1' %}
+                                        <input type="checkbox" name='check' class="form-check-input" checked> Account Is Verified. </label>
+                                    {% elif usr.checkbox == '0' %}
+                                        <input type="checkbox" name='check' class="form-check-input" value='1' > Account Is Not Verified Please Verify first. </label>
+                                    {% endif %}
+                                      
+                                  </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Role</label>
+                                <div class="col-sm-9">
+                                  <select class="form-control">
+                                    <option Selected disabled>----</option>
+                                    <option>Customer</option>
+                                    <option>Admin</option>
+                                    <option>Administrator</option>
+                                    <option>Author</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12 grid-margin stretch-card">
+                            <div class="card">
+                              <div class="card-body">
+                                <h4 class="card-title">Action</h4>
+                                 {% if usr.status == '0' %}
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <div class="form-check form-check-success">
+                                          <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" name="radiobtn" id="ExampleRadio1" value='0' checked> Active </label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <div class="form-check form-check-danger">
+                                          <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" name="radiobtn" id="ExampleRadio2" value='1' > Deactive </label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  {% elif usr.status == '1' %}
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <div class="form-check form-check-success">
+                                          <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" name="radiobtn" id="ExampleRadio1" value='0' > Active </label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <div class="form-check form-check-danger">
+                                          <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" name="radiobtn" id="ExampleRadio2" value='1' checked> Deactive </label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>    
+                                  {% endif %}
+                                </div>
+                            </div>
+                          </div>
+                            <!--p class="card-description"> Address </p>
+                            <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Address 1</label>
+                                    <div class="col-sm-9">
+                                       <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">State</label>
+                                    <div class="col-sm-9">
+                                    <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Address 2</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Postcode</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">City</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Country</label>
+                            <div class="col-sm-9">
+                              <select class="form-control">
+                                <option>America</option>
+                                <option>Italy</option>
+                                <option>Russia</option>
+                                <option>Britain</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                    
+                    </div-->
+                    <button type="submit" class="btn btn-primary mr-2">Save</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <!--div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Select 2</h4>
+                    <div class="form-group">
+                      <label>Single select box using select 2</label>
+                      <select class="js-example-basic-single" style="width:100%">
+                        <option value="AL">Alabama</option>
+                        <option value="WY">Wyoming</option>
+                        <option value="AM">America</option>
+                        <option value="CA">Canada</option>
+                        <option value="RU">Russia</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Multiple select using select 2</label>
+                      <select class="js-example-basic-multiple" multiple="multiple" style="width:100%">
+                        <option value="AL">Alabama</option>
+                        <option value="WY">Wyoming</option>
+                        <option value="AM">America</option>
+                        <option value="CA">Canada</option>
+                        <option value="RU">Russia</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Typeahead</h4>
+                    <p class="card-description"> A simple suggestion engine </p>
+                    <div class="form-group row">
+                      <div class="col">
+                        <label>Basic</label>
+                        <div id="the-basics">
+                          <input class="typeahead" type="text" placeholder="States of USA">
+                        </div>
+                      </div>
+                      <div class="col">
+                        <label>Bloodhound</label>
+                        <div id="bloodhound">
+                          <input class="typeahead" type="text" placeholder="States of USA">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div-->
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          {% include 'head_foot/footer.html' %}
+              <!-- container-scroller -->
+              <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- plugins:js -->
+    <script src="{% static 'assets/vendors/js/vendor.bundle.base.js' %}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for Add this page -->
+    <script src="{% static 'assets/vendors/select2/select2.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/typeahead.js/typeahead.bundle.min.js' %}"></script>
+    <!-- End plugin js for this page -->
+
+    <!-- inject:js -->
+    <script src="{% static 'assets/js/off-canvas.js' %}"></script>
+    <script src="{% static 'assets/js/hoverable-collapse.js' %}"></script>
+    <script src="{% static 'assets/js/misc.js' %}"></script>
+    <script src="{% static 'assets/js/settings.js' %}"></script>
+    <script src="{% static 'assets/js/todolist.js' %}"></script>
+    <script>
+        {% include 'ajax/ajax.js' %}
+    </script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="{% static 'assets/js/file-upload.js' %}"></script>
+    <script src="{% static 'assets/js/typeahead.js' %}"></script>
+    <script src="{% static 'assets/js/select2.js' %}"></script>
+    <!-- End custom js for this page -->
+  </body>
+</html>

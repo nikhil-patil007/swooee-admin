@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include 'head_foot/header.html' %}
+  </head>
+  <body>
+    <div class="container-scroller">
+      <!-- partial:../../partials/_sidebar.html -->
+     {% include 'head_foot/sider.html' %}
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_navbar.html -->
+        {% include 'head_foot/head.html' %}
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title"> Add New Page Form </h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#">Add New Page</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Add New Page From elements</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="row">
+              <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Add New Page Form</h4>
+                    <p class="card-description"> Add New Page Form </p>
+                    <form id='updatecatform' class="forms-sample" action='{% url 'staticpage' %}'method="POST" enctype="multipart/form-data">{% csrf_token %}
+                      <div class="form-group">
+                        <label for="exampleInputName1">Name</label>
+                        <input type="text" class="form-control" name='pname' id="exampleInputName1" placeholder="Page Title" required>
+                      </div>
+                      <!--div class="form-group">
+                        <label for="exampleInputEmail3">Slug</label>
+                        <input type="text" class="form-control file-upload-info" disabled name='pslug' id="exampleInputEmail3" placeholder="Page Title Slug">
+                      </div-->
+                      <div class="form-group">
+                        <label>Image</label>
+                        <input type="file" name="pimg[]" class="file-upload-default" required>
+                        <div class="input-group col-xs-12">
+                          <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image" required>
+                          <span class="input-group-append">
+                            <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleTextarea1">Discripation</label>
+                        <textarea class="form-control" id="exampleTextarea1" name='pdis' rows="30"></textarea>
+                      </div>
+                      <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          {% include 'head_foot/footer.html' %}
+              <!-- container-scroller -->
+              <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- plugins:js -->
+    <script src="{% static 'assets/vendors/js/vendor.bundle.base.js' %}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for Add this page -->
+    <script src="{% static 'assets/vendors/select2/select2.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/typeahead.js/typeahead.bundle.min.js' %}"></script>
+    <!-- End plugin js for this page -->
+
+    <!-- inject:js -->
+    <script src="{% static 'assets/js/off-canvas.js' %}"></script>
+    <script src="{% static 'assets/js/hoverable-collapse.js' %}"></script>
+    <script src="{% static 'assets/js/misc.js' %}"></script>
+    <script src="{% static 'assets/js/settings.js' %}"></script>
+    <script src="{% static 'assets/js/todolist.js' %}"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="{% static 'assets/js/file-upload.js' %}"></script>
+    <script src="{% static 'assets/js/typeahead.js' %}"></script>
+    <script src="{% static 'assets/js/select2.js' %}"></script>
+    <!-- End custom js for this page -->
+  </body>
+</html>
