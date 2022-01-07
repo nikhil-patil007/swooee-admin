@@ -18,13 +18,13 @@ date1 = datetime.now()
 print('-----------------------Swooee Admin Panel-----------------------\n')
 # INDEX PAGE :
 def home(request):
-    if 'id' in request.session:
-        disc =  {
-            'title':'Corona Admin',
-        }
-        return render(request, 'swooee/index.html',disc)
-    else:
-        return redirect("login")
+    # if 'id' in request.session:
+    disc =  {
+        'title':'Corona Admin',
+    }
+    return render(request, 'swooee/index.html',disc)
+    # else:
+    #     return redirect("login")
     
 # LOGIN FORM :
 def login(request):
@@ -39,13 +39,13 @@ def login(request):
 
 # ADD USER FORM :
 def adduserpage(request):
-    if 'id' in request.session:
-        disc =  {
-            'title':'Corona Admin | Add User Form',
-        }
-        return render(request, 'swooee/form_user.html',disc)
-    else:
-        return redirect("login")
+    # if 'id' in request.session:
+    disc =  {
+        'title':'Corona Admin | Add User Form',
+    }
+    return render(request, 'swooee/form_user.html',disc)
+    # else:
+    #     return redirect("login")
 
 # ADD CATEGORY FORM :
 def categorypage(request):
