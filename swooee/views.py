@@ -97,7 +97,7 @@ def login_admin(request):
             pwd = request.POST['pswd']
 
             user = 'Admin'
-            if len(user) > 0:
+            if len(user) == ur:
                 if 'ABCD!123' == pwd:
                     request.session['id']= user[0].id
                     return redirect("home")
