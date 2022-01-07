@@ -79,16 +79,19 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        # 'HOST': 'auth-db663.hostinger.com',
-        'NAME': 'swooee-admin',
-        'USER' : 'postgres',
-        'PASSWORD' : 'Maquinistas',
-        'PORT' : 5432,
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         # 'HOST': 'auth-db663.hostinger.com',
+#         'NAME': 'swooee-admin',
+#         'USER' : 'postgres',
+#         'PASSWORD' : 'Maquinistas',
+#         'PORT' : 5432,
+#     }
+# }
+import dj_database_url
+
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 # DATABASES = {
 #     'default': {
@@ -176,3 +179,6 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# import django_heroku
+# django_heroku.settings(locals())
