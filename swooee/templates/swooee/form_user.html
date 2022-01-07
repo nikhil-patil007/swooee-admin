@@ -31,6 +31,15 @@
                     <h4 class="card-title">User Form</h4>
                     <form class="form-sample" action="{% url 'adduser' %}" method='POST' enctype="multipart/form-data">{% csrf_token %}
                       <p class="card-description"> User info </p>
+                      {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <p class='alert-{{ message.tags }}' role='alert'>
+                                    {{ message }}
+                                </p>
+                            {% endfor %}
+                        </ul>
+                      {% endif %}
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
@@ -85,7 +94,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Profile Image</label>
                                     <div class="col-sm-9">
-                                    <input type="file" name="img[]" class="file-upload-default" required>
+                                    <input type="file" name="img[]" accept="image/*" class="file-upload-default" required>
                                     <div class="input-group col-xs-12">
                                         <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image" required>
                                         <span class="input-group-append">

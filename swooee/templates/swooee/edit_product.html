@@ -133,25 +133,30 @@
                       <div class="form-group">
                         <label for="exampleSelectGender">Product Category</label>
                         <select class="js-example-basic-single" id='dropdownlist' style="width:100%" name='pcat' value={{getpro.category}} required>
-                          <option value='' disabled>-----</option>
+                          <option value='{{ getpro.category }}' selected><li>{{ getpro.category }}</li></option>
                           <ul>
                             {% for i in cat %}
-                                {% if i.parent == Null %}
+                                {% if not i.parent %}
                                   <option value='{{ i.category }}'><li>{{ i.category }}</li></option>
-                                {% else %}
                                 {% endif %}
                               {% for u in i.child.all %}
+                              {% if not u.is_leaf_node %}
                                 <ul>
-                                  <option value='{{ u.category }}'><li>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;{{ u.category }}</li></option>
+                                  <option value='{{ u.category }}'><li>&nbsp;*&nbsp;{{ u.category }}</li></option>
                                 </ul>
+                                {% else %}
+                                <ul>
+                                  <option value='{{ u.category }}'><li>&nbsp; &nbsp;--&nbsp;&nbsp;{{ u.category }}</li></option>
+                                </ul>
+                              {% endif %}
                               {% endfor %}
                             {% endfor %}
-                          </ul> 
+                          </ul>
                         </select>
                       </div>
                       <div class="form-group">
                         <label>Image upload</label>
-                        <input type="file" name="img" class="file-upload-default">
+                        <input type="file" name="img" accept="image/*" class="file-upload-default">
                         <div class="input-group col-xs-12">
                           <input type="text" class="form-control file-upload-info" value='{{getpro.Image}}' disabled placeholder="Upload Image">
                           <span class="input-group-append">

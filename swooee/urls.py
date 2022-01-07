@@ -42,3 +42,6 @@ urlpatterns = [
     path('<str:slug>/',views.viewpage,name='viewpage'),
     
 ]
+
+
+

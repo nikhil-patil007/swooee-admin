@@ -1,23 +1,23 @@
 // AJAX FOR Category Delete : 
 $('tbody').on('click','.delete-category',function(){
-    console.log('delete button clicked');
+    // console.log('delete button clicked');
     let id = $(this).attr('data-sid');
-    console.log(id);
+    // console.log(id);
     mydata = {pid:id, 'csrfmiddlewaretoken': '{{ csrf_token }}'}
     mythis = this;
-    console.log(mythis)
+    // console.log(mythis)
     $.ajax({
         url : "{% url 'deleteCat' %}",
         method : "POST",
         data : mydata,
         success : function(data){
-            console.log(data);
+            // console.log(data);
             if (data.status==1){
-                console.log("Category Deleted Successfully")
+                // console.log("Category Deleted Successfully")
                 $(mythis).closest("tr").fadeOut();
             }
             if (data.status==0){
-                console.log("Unable To Delete Category")
+                // console.log("Unable To Delete Category")
             }
         },
     });
@@ -25,24 +25,24 @@ $('tbody').on('click','.delete-category',function(){
 
 // AJAX FOR Product Delete : 
 $('tbody').on('click','.delete-product',function(){
-    console.log('delete button clicked');
+    // console.log('delete button clicked');
     let id = $(this).attr('data-sid');
-    console.log(id);
+    // console.log(id);
     mydata = {pid:id, 'csrfmiddlewaretoken': '{{ csrf_token }}'}
     mythis = this;
-    console.log(mythis)
+    // console.log(mythis)
     $.ajax({
         url : "{% url 'deleteproduct' %}",
         method : "POST",
         data : mydata,
         success : function(data){
-            console.log(data);
+            // console.log(data);
             if (data.status==1){
-                console.log("Product Deleted Successfully")
+                // console.log("Product Deleted Successfully")
                 $(mythis).closest("tr").fadeOut();
             }
             if (data.status==0){
-                console.log("Unable To Delete Product")
+                // console.log("Unable To Delete Product")
             }
         },
     });
@@ -50,24 +50,24 @@ $('tbody').on('click','.delete-product',function(){
 
 // AJAX FOR User Page Delete : 
 $('tbody').on('click','.delete-usr',function(){
-    console.log('delete button clicked');
+    // console.log('delete button clicked');
     let id = $(this).attr('data-sid');
-    console.log(id);
+    // console.log(id);
     mydata = {pid:id, 'csrfmiddlewaretoken': '{{ csrf_token }}'}
     mythis = this;
-    console.log(mythis)
+    // console.log(mythis)
     $.ajax({
         url : "{% url 'deleteuser' %}",
         method : "POST",
         data : mydata,
         success : function(data){
-            console.log(data);
+            // console.log(data);
             if (data.status==1){
-                console.log("User Deleted Successfully")
+                // console.log("User Deleted Successfully")
                 $(mythis).closest("tr").fadeOut();
             }
             if (data.status==0){
-                console.log("Unable To Delete User")
+                // console.log("Unable To Delete User")
             }
         },
     });
@@ -75,24 +75,24 @@ $('tbody').on('click','.delete-usr',function(){
 
 // AJAX FOR Static Page Delete : 
 $('tbody').on('click','.delete-page',function(){
-    console.log('delete button clicked');
+    // console.log('delete button clicked');
     let id = $(this).attr('data-sid');
-    console.log(id);
+    // console.log(id);
     mydata = {pid:id, 'csrfmiddlewaretoken': '{{ csrf_token }}'}
     mythis = this;
-    console.log(mythis)
+    // console.log(mythis)
     $.ajax({
         url : "{% url 'deletepage' %}",
         method : "POST",
         data : mydata,
         success : function(data){
-            console.log(data);
+            // console.log(data);
             if (data.status==1){
-                console.log("Page Deleted Successfully")
+                // console.log("Page Deleted Successfully")
                 $(mythis).closest("tr").fadeOut();
             }
             if (data.status==0){
-                console.log("Unable To Delete Page")
+                // console.log("Unable To Delete Page")
             }
         },
     });
@@ -100,24 +100,24 @@ $('tbody').on('click','.delete-page',function(){
 
 // AJAX FOR Banner Page Delete : 
 $('tbody').on('click','.delete-banner',function(){
-    console.log('delete button clicked');
+    // console.log('delete button clicked');
     let id = $(this).attr('data-sid');
-    console.log(id);
+    // console.log(id);
     mydata = {pid:id, 'csrfmiddlewaretoken': '{{ csrf_token }}'}
     mythis = this;
-    console.log(mythis)
+    // console.log(mythis)
     $.ajax({
         url : "{% url 'deletebanner' %}",
         method : "POST",
         data : mydata,
         success : function(data){
-            console.log(data);
+            // console.log(data);
             if (data.status==1){
-                console.log("Banner Deleted Successfully")
+                // console.log("Banner Deleted Successfully")
                 $(mythis).closest("tr").fadeOut();
             }
             if (data.status==0){
-                console.log("Unable To Delete Banner")
+                // console.log("Unable To Delete Banner")
             }
         },
     });

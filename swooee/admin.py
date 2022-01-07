@@ -1,8 +1,10 @@
 from django.contrib import admin
 from .models import *
+from mptt.admin import MPTTModelAdmin
+
 
 # Register your models here.
-admin.site.register(Categories)
+admin.site.register(Categories, MPTTModelAdmin)
 admin.site.register(product)
 admin.site.register(user)
 admin.site.register(admin_user)

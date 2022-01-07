@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from autoslug import AutoSlugField
+from mptt.models import MPTTModel, TreeForeignKey
 
 # "0" Is Activate & "1" Is Deactivate
 # Create your models here.
@@ -32,9 +33,9 @@ class user(models.Model):
         return nameq
     
 
-class Categories(models.Model):
+class Categories(MPTTModel):
     id = models.AutoField(primary_key=True)
-    parent = models.ForeignKey('self',blank=True, null=True ,related_name='child', on_delete=models.CASCADE)
+    parent = TreeForeignKey('self',blank=True, null=True ,related_name='child', on_delete=models.PROTECT)
     category = models.CharField(max_length=255, db_index=True)
     slug = AutoSlugField(populate_from='category', max_length=255, unique=True, db_index=True)
     created_at = models.DateTimeField(null=True)
@@ -49,7 +50,7 @@ class product(models.Model):
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='name', max_length=255, unique=True, db_index=True)
     discription = models.CharField(max_length=255)
-    category = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    category = models.ForeignKey(Categories, null=True, on_delete=models.SET_NULL)
     Image = models.ImageField(upload_to="productimages/",default="abc.jpg")
     created_at = models.DateTimeField(null=True)
     updated_at = models.DateTimeField(null=True)

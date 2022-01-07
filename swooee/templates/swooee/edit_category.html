@@ -122,20 +122,29 @@
                         <input type="text" class="form-control" id="exampleInputPassword4" placeholder="Password">
                       </div-->
                       <div class="form-group">
-                        <label for="exampleSelectGender">Parent Category</label>
-                        <select class="form-control" id="exampleSelectGender" name='ccat' required>
-                          <option Selected disabled>-Select Parent Category-</option>
+                        <label for="exampleSelectGender">Add SubCategory</label>
+                        <select class="form-control" id="exampleSelectGender" name='ccat' required>  
+                          <option disabled selected>{{ parent }}</option>
+                          <option disabled>Last Select</option>
+                          <option value="NULL">--Remove SubCategory--</option>
                           <ul>
                             {% for i in cats %}
-                                {% if i.parent == Null %}
-                                  <option value='{{ i.category }}'><li>{{ i.category }}</li></option>
-                                {% else %}
-                                {% endif %}
-                              {% for u in i.child.all %}
-                                <ul>
-                                  <option value='{{ u.category }}'><li>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;{{ u.category }}</li></option>
-                                </ul>
-                              {% endfor %}
+                            {% if not i.parent %}
+                            <option value='{{ i.category }}'><li>{{ i.category }}</li></option>
+                            {% endif %}
+                            {% for u in i.child.all %}
+                            {% if not u.parent.parent %}
+                            {% comment %} {% if cat.parent %}
+                            <ul>
+                              <option value='{{ u.category }}' selected><li>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;{{ u.category }}</li></option>
+                            </ul>
+                            {% else %} {% endcomment %}
+                            <ul>
+                              <option value='{{ u.category }}'><li>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;{{ u.category }}</li></option>
+                            </ul>
+                            {% comment %} {% endif %} {% endcomment %}
+                            {% endif %}
+                            {% endfor %}
                             {% endfor %}
                           </ul> 
                         </select>
@@ -143,7 +152,7 @@
                       <div class="form-group">
                         <label>Image</label>
                         <!--img src="{{MEDIA_URL}}{{cat.Image.url}}" alt="{{cat.name}}" height=100 width=100-->
-                        <input type="file" name="name" class="file-upload-default">
+                        <input type="file" name="name" accept="image/*" class="file-upload-default">
                         <div class="input-group col-xs-12">
                           <input type="text" class="form-control file-upload-info" id='addimg' disabled name='cimg' placeholder="Upload Image" value={{cat.Image}}>
                           <span class="input-group-append">

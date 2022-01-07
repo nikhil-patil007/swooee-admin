@@ -144,7 +144,8 @@
                             <th> No. </th>
                             <th> Image </th>
                             <th> Name </th>
-                            <th> Parent </th>
+                            <th> Parent Of </th>
+                            <th> Grand Parent Of </th>
                             <th> Created_at </th>
                             <th> updated_at </th>
                             <th> Status </th>
@@ -170,7 +171,20 @@
                                 <br>
                                 <a href=''>{{i.slug}}</a>
                               </td>
-                              <td>{{i.parent}}</td>
+                              <td>
+                                {% if i.parent == Null %}
+                                 --
+                                {% else %}
+                                {{i.parent}}
+                                {% endif %}
+                              </td>
+                              <td>
+                                {% if i.parent.parent == Null %}
+                                 --
+                                {% else %}
+                                {{i.parent.parent}}
+                                {% endif %}
+                              </td>
                               <td>{{i.created_at}}</td>
                               <td>{{i.updated_at}}</td>
                             <td> 
