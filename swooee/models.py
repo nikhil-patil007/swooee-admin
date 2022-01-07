@@ -7,8 +7,8 @@ from mptt.models import MPTTModel, TreeForeignKey
 # Create your models here.
 
 class admin_user(models.Model):
-    username = models.CharField(max_length=25)
-    password = models.CharField(max_length=30)
+    username = models.CharField(max_length=25,default='Admin')
+    password = models.CharField(max_length=30,default='Admin123')
     
     def __str__(self):
         return self.username 

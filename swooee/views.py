@@ -96,10 +96,9 @@ def login_admin(request):
             ur = request.POST['email']
             pwd = request.POST['pswd']
 
-            user = 'Admin'
-            password = 'ABCD@123'
-            if user == ur:
-                if password == pwd:
+            user = admin_user.objects.filter(username=ur)
+            if len(user) > 0:
+                if user[0].password == pwd:
                     request.session['id']= user[0].id
                     return redirect("home")
                 else:

@@ -20,14 +20,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
-# SECRET_KEY = '%#t2$p5!j286%vht&z+as(m^ztb^f8#r0)tk$-x9p69q$atfd0'
+# SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = '%#t2$p5!j286%vht&z+as(m^ztb^f8#r0)tk$-x9p69q$atfd0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
-ALLOWED_HOSTS = ["swooee-admin.herokuapp.com",'localhost']
+# ALLOWED_HOSTS = ["swooee-admin.herokuapp.com",'localhost']
 
 
 # Application definition
@@ -79,19 +79,19 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'HOST': 'ec2-35-175-19-96.compute-1.amazonaws.com',
-        'NAME': 'd2bu0ute9af4go',
-        'USER' : 'fbuosfakjogfkc',
-        'PASSWORD' : 'b1169c7ed9f1c0e443e889ccceb6ae8b468d52fa48a259267ebeb5e284eb1b71',
-        'PORT' : 5432,
-    }
-}
-import dj_database_url
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'HOST': 'ec2-35-175-19-96.compute-1.amazonaws.com',
+#         'NAME': 'd2bu0ute9af4go',
+#         'USER' : 'fbuosfakjogfkc',
+#         'PASSWORD' : 'b1169c7ed9f1c0e443e889ccceb6ae8b468d52fa48a259267ebeb5e284eb1b71',
+#         'PORT' : 5432,
+#     }
+# }
+# import dj_database_url
 
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 # DATABASES = {
 #     'default': {
@@ -104,19 +104,13 @@ DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'u383218087_swoee',
-#         'USER': 'u383218087_swoee',
-#         'PASSWORD': 'WfhqaN}>ag,8}HMk',
-#         'HOST': '127.0.0.1 ',
-#         'PORT': '3306',
-#         'OPTIONS': {
-#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-#         }   
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+    }
+}
+
 
 
 # Password validation
@@ -172,13 +166,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Email sending
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+# EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # import django_heroku
 # django_heroku.settings(locals())
