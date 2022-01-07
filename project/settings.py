@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': '127.0.0.1',
+        'HOST': 'auth-db663.hostinger.com',
         'NAME': 'u383218087_swoee',
         'USER' : 'u383218087_swoee',
         'PASSWORD' : 'WfhqaN}>ag,8}HMk',
