@@ -20,14 +20,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
-# SECRET_KEY = '%#t2$p5!j286%vht&z+as(m^ztb^f8#r0)tk$-x9p69q$atfd0'
+SECRET_KEY = '%#t2$p5!j286%vht&z+as(m^ztb^f8#r0)tk$-x9p69q$atfd0'
+DEBUG = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
 
 
-ALLOWED_HOSTS = ["swooee-admin.herokuapp.com",'localhost']
+# SECRET_KEY = os.environ['SECRET_KEY']
+# DEBUG = False
+# ALLOWED_HOSTS = ["swooee-admin.herokuapp.com",'localhost']
 
 
 # Application definition
@@ -167,13 +168,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
 # Email sending
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+# EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # import django_heroku
 # django_heroku.settings(locals())
