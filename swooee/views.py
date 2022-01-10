@@ -1,26 +1,20 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from .models import *
+from .forms import *
 from django.http import JsonResponse,HttpResponse
 from django.conf import settings
 from datetime import datetime
-from django.contrib.auth import get_user_model
 from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.contrib.auth.hashers  import make_password,check_password
-
 
 date1 = datetime.now()
 
 # Create your views here.
 
 # SCRAP FILE HERE
-
-
-
-
 
 # INDEX PAGE :
 def home(request):
@@ -65,10 +59,34 @@ def categorypage(request):
     else:
         return redirect("login")
 
+# ADD SUBCATEGORY FORM :
+def subcategorypage(request):
+    if 'id' in request.session:
+        cats = Categories.objects.all()
+        disc =  {
+            'title':'Corona Admin | Add SubCategory Forms',
+            'cat' : cats,
+        }
+        return render(request, 'swooee/form_subcategory.html',disc)
+    else:
+        return redirect("login")
+    
+# ADD SUBCATEGORY FORM :
+def childcategorypage(request):
+    if 'id' in request.session:
+        cats = Categories.objects.all()
+        disc =  {
+            'title':'Corona Admin | Add ChildCategory Forms',
+            'cat' : cats,
+        }
+        return render(request, 'swooee/form_childcategory.html',disc)
+    else:
+        return redirect("login")
+
 # ALL PRODUCT PAGE SHOW :
 def all_products(request):
     if 'id' in request.session:
-        pro = product.objects.all()
+        pro = Product.objects.all()
         disc =  {
             'title':'Corona Admin | All Products',
             'pro':pro
@@ -96,7 +114,7 @@ def login_admin(request):
             ur = request.POST['email']
             pwd = request.POST['pswd']
 
-            user = admin_user.objects.filter(username=ur)
+            user = Admin_user.objects.filter(username=ur)
             if len(user) > 0:
                 if user[0].password == pwd:
                     request.session['id']= user[0].id
@@ -169,7 +187,7 @@ def add_product(request):
         product_youtube = request.POST['pyoutube'] if request.POST['pyoutube'] else 'None'
                 
         categor = Categories.objects.get(category=product_cat)
-        produ = product.objects.create(
+        produ = Product.objects.create(
             name = product_name,
             slug = product_name,
             discription = product_dis,
@@ -202,7 +220,7 @@ def add_product(request):
 # ALL USER PAGE SHOW :  
 def all_user(request):
     if 'id' in request.session:
-        getusr = user.objects.all()
+        getusr = User.objects.all()
         disc =  {
             'title':'Corona Admin | All User Page',
             'usr':getusr,
@@ -241,7 +259,7 @@ def edit_cat_page(request,slug):
 # EDIT PRODUCT PAGE SHOW :
 def edit_product_page(request,slug):
     if 'id' in request.session:
-        getpro = product.objects.get(slug=slug)
+        getpro = Product.objects.get(slug=slug)
         cat = Categories.objects.filter(status=0)
         disc =  {
             'title': getpro.name,
@@ -255,7 +273,7 @@ def edit_product_page(request,slug):
 # EDIT PRODUCT FUNCTION :
 def edit_product(request,slug):
     if  'id' in request.session:
-        productdata = product.objects.get(slug=slug)
+        productdata = Product.objects.get(slug=slug)
         
         productdata.name = request.POST['pname'] if request.POST['pname'] else productdata.name
         productdata.slug = request.POST['pname'] if request.POST['pname'] else productdata.slug
@@ -324,45 +342,43 @@ def delete_product(request):
     if request.method=='POST':
         id = request.POST.get('pid')
         print(id)
-        getpas = product.objects.get(pk=id)
+        getpas = Product.objects.get(pk=id)
         getpas.delete()
         return JsonResponse({'status':1})
         # return redirect("Home")
     else:
         return JsonResponse({'status':0})
     
-# STATIC EXTRA PAGES SHOW CONTAIN :
-def staticpage(request):
-    if  'id' in request.session:
-        disc =  {
-                'title':'Corona Admin | Add Dyanmic Page',
-            }
-        return render(request, 'swooee/form_static_page.html',disc)
-    else:
-        return redirect('login')
-
 # STATIC PAGE CONTAIN :
 def add_static_page(request):
     if  'id' in request.session:
-        title = request.POST['pname']
-        Image = request.FILES['pimg[]']
-        
-        discri = request.POST['pdis']
-        
-        page = render_to_string('head_foot/New.html', {
-                            'title1': title,
-                            'page': discri,
-                        })
-        
-        sta = static_page.objects.create(title = title, discription = discri, created_at=date1, page=page, updated_at=date1, Image = Image)
-        return redirect('allstaticpage')
+        if request.method == "POST":
+            form = Static_pageForm(data=request.POST)
+            if form.is_valid():
+                form = form.save(commit=False)
+            if 'Image' in request.FILES:
+                form.Image = request.FILES['Image']
+            form.save()
+            return redirect('allstaticpage')
+    else:
+        return redirect('login')
+
+# STATIC EXTRA PAGES SHOW CONTAIN :
+def staticpage(request):
+    if  'id' in request.session:
+        form = Static_pageForm()
+        disc =  {
+                'title':'Corona Admin | Add Dyanmic Page',
+                'form' :form,
+            }
+        return render(request, 'swooee/form_static_page.html',disc)
     else:
         return redirect('login')
 
 # View ALL STATIC PAGES :
 def view_static_page(request):
     if  'id' in request.session:
-        page = static_page.objects.all()
+        page = Static_page.objects.all()
         disc =  {
                 'title':'Corona Admin | Show All Dynamic Page',
                 'page':page,
@@ -377,7 +393,7 @@ def delete_page(request):
     if request.method=='POST':
         id = request.POST.get('pid')
         print(id)
-        getpas = static_page.objects.get(pk=id)
+        getpas = Static_page.objects.get(pk=id)
         getpas.delete()
         return JsonResponse({'status':1})
         # return redirect("Home")
@@ -387,10 +403,12 @@ def delete_page(request):
 # EDIT STATIC PAGE SHOW :
 def edit_static_page(request,slug):
     if 'id' in request.session:
-        getpage = static_page.objects.get(slug=slug)
+        getpage = Static_page.objects.get(slug=slug)
+        form = Static_pageForm(instance=getpage)
         disc =  {
             'title': getpage.title,
             'getpage':getpage,
+            'form' :form,
         }
         return render(request,'swooee/edit_static_page.html',disc)
     else:
@@ -399,38 +417,20 @@ def edit_static_page(request,slug):
 # EDIT PAGE CONTAINS :
 def edit_page(request,slug):
     if  'id' in request.session:
-        pagedata = static_page.objects.get(slug=slug)
-        pagedata.title = request.POST['pname'] if request.POST['pname'] else pagedata.name
-        pagedata.slug = request.POST['pname'] if request.POST['pname'] else pagedata.slug
-        pagedata.discription = request.POST['pdis'] if request.POST['pdis'] else pagedata.discription
-        
-        page = render_to_string('head_foot/New.html', {
-                            'title1': request.POST['pname'],
-                            'page': request.POST['pdis'],
-                        })
-        pagedata.page = page
-        print(date1)
-        pagedata.updated_at = date1
-        pagedata.status = request.POST['radiobtn'] if request.POST['radiobtn'] else pagedata.status
-        try:
-            pagedata.Image = request.FILES['pimg']
-        except :
-            pagedata.Image = pagedata.Image
-        pagedata.save()
-        return redirect('allstaticpage')
+        getpage = Static_page.objects.get(slug=slug)
+        form = Static_pageForm(request.POST or None, instance=getpage)
+        if form.is_valid():
+            form = form.save(commit=False)
+            if 'Image' in request.FILES:
+                form.Image = request.FILES['Image']
+            form.save()
+            getpage.slug = getpage.title
+            getpage.status = request.POST['radiobtn'] if request.POST['radiobtn'] else productdata.getpage
+            getpage.save()
+            return redirect('allstaticpage')
     else:
         return redirect('login')
     
-# view Static page :
-def viewpage(request,slug):
-    pagedata = static_page.objects.get(slug=slug)
-    # if pagedata.status == '0':    
-    disc =  {
-        'title': 'Corona Admin | ' + pagedata.title,
-        'page':pagedata.page,
-    }
-    return render(request,'head_foot/New1.html',disc)
-
 # Add User Contains : 
 def adduser(request):
     if 'id' in request.session:
@@ -454,7 +454,7 @@ def adduser(request):
                 messages.warning(request, 'Email Is Already Use')
                 return redirect('adduserpage')
             else:
-                users = user.objects.create(
+                users = User.objects.create(
                     username = usrname,
                     email = email,
                     slug = slug,
@@ -489,7 +489,7 @@ def adduser(request):
 # Edit User Page :
 def edit_userpage(request,slug):
     if 'id' in request.session:
-        getuser = user.objects.get(slug=slug)
+        getuser = User.objects.get(slug=slug)
         disc =  {
         'title': 'Corona Admin | ' + getuser.first_name + ' ' + getuser.last_name,
         'usr' : getuser,
@@ -501,7 +501,7 @@ def edit_userpage(request,slug):
 # Update User Function :
 def edit_user(request,slug):
     if  'id' in request.session:
-        usrdata = user.objects.get(slug=slug)
+        usrdata = User.objects.get(slug=slug)
         email =request.POST['email'].casefold()
         usrdata.username = request.POST['username'] if request.POST['username'] else usrdata.username
         usrdata.first_name = request.POST['fname'] if request.POST['fname'] else usrdata.first_name
@@ -516,7 +516,7 @@ def edit_user(request,slug):
             usrdata.Image = usrdata.Image
         
 
-        user1 = user.objects.filter(email=email)  
+        user1 = User.objects.filter(email=email)  
         if(not user1):
             usrdata.email = email
             usrdata.checkbox = '0'
@@ -557,7 +557,7 @@ def delete_user(request):
     if request.method=='POST':
         id = request.POST.get('pid')
         print(id)
-        getpas = user.objects.get(pk=id)
+        getpas = User.objects.get(pk=id)
         getpas.delete()
         return JsonResponse({'status':1})
         # return redirect("Home")
@@ -567,7 +567,7 @@ def delete_user(request):
 # All Banners Show:
 def all_banner_page(request):
     if 'id' in request.session:
-        banners = banner.objects.all()
+        banners = Banner.objects.all()
         disc =  {
             'title': 'Corona Admin | All Banners',
             'bnr':banners,
@@ -579,9 +579,10 @@ def all_banner_page(request):
 # Add Banners Page:
 def add_banner_page(request):
     if 'id' in request.session:
-        # banners = banner.objects.all()
+        form = BannerForm()
         disc =  {
             'title': 'Corona Admin | Add Banners',
+            'form' : form,
         }
         return render(request,'swooee/form_banner.html',disc)
     else:
@@ -591,19 +592,12 @@ def add_banner_page(request):
 def add_banner(request):
     if 'id' in request.session:
         if request.method == "POST":
-            title = request.POST['title']
-            disc = request.POST['discripation']
-            file = request.FILES['img[]']
-            extens = request.POST['type']
-            
-            banr = banner.objects.create(
-                short_title = title,
-                discription = disc,
-                file = file,
-                extension = extens,
-                created_at = date1,
-                updated_at = date1,
-            )
+            form = BannerForm(data=request.POST)
+            if form.is_valid():
+                form = form.save(commit=False)
+            if 'Image' in request.FILES:
+                form.Image = request.FILES['Image']
+            form.save()
             return redirect('allbannerpage')
     else:
         return redirect('login')       
@@ -611,10 +605,12 @@ def add_banner(request):
 # Edit Page For Banner :
 def edit_banner_page(request,slug):
     if 'id' in request.session:
-        getbnr = banner.objects.get(slug=slug)
+        getbnr = Banner.objects.get(slug=slug)
+        form = BannerForm(request.POST or None, instance=getbnr)
         disc =  {
             'title': getbnr.short_title,
             'bnr':getbnr,
+            'form' : form
         }
         return render(request,'swooee/edit_banner_page.html',disc)
     else:
@@ -624,20 +620,15 @@ def edit_banner_page(request,slug):
 def edit_banner(request,slug):
     try:
         if 'id' in request.session:
-            getbnr = banner.objects.get(slug=slug)
-            getbnr.short_title = request.POST['title'] if request.POST['title'] else getbnr.short_title
-            getbnr.slug = request.POST['title'] if request.POST['title'] else getbnr.slug
-            getbnr.discription = request.POST['discripation'] if request.POST['discripation'] else getbnr.discription
-            try :
-                getbnr.file = request.FILES['img']
-            except:
-                getbnr.file = getbnr.file
-            try:
-                getbnr.extension = request.POST['type']
-            except:
-                getbnr.extension = getbnr.extension
-            getbnr.updated_at = date1
-            getbnr.status = request.POST['radiobtn'] if request.POST['radiobtn'] else usrdata.status
+            getbnr = Banner.objects.get(slug=slug)
+            form = BannerForm(request.POST or None, instance=getbnr)
+            if form.is_valid():
+                form = form.save(commit=False)
+            if 'Image' in request.FILES:
+                form.Image = request.FILES['Image']
+            form.save()
+            getbnr.slug = getbnr.short_title
+            getbnr.status = request.POST['radiobtn'] if request.POST['radiobtn'] else productdata.getbnr
             getbnr.save()
             return redirect('allbannerpage')
         else:
@@ -651,7 +642,7 @@ def delete_banner(request):
     if request.method=='POST':
         id = request.POST.get('pid')
         print(id)
-        getpas = banner.objects.get(pk=id)
+        getpas = Banner.objects.get(pk=id)
         getpas.delete()
         return JsonResponse({'status':1})
         # return redirect("Home")

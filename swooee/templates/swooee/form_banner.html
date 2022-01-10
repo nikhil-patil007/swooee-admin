@@ -111,7 +111,7 @@
                     <form id='updatecatform' class="forms-sample" action='{% url 'addedbanner' %}' method="POST" enctype="multipart/form-data">{% csrf_token %}
                       <div class="form-group">
                         <label for="exampleInputName1">Title</label>
-                        <input type="text" class="form-control" name='title' id="exampleInputName1" placeholder="Title On Banner" required>
+                        {{ form.short_title }}
                       </div>
                       <!--div class="form-group">
                         <label for="exampleInputEmail3">Slug</label>
@@ -120,7 +120,7 @@
                       <div class="form-group">
                         <label for="exampleInputPassword4">Password</label>
                         <input type="text" class="form-control" id="exampleInputPassword4" placeholder="Password">
-                      </div-->
+                      </div>
                       <div class="form-group">
                         <label for="exampleSelectGender">File Extension</label>
                         <select class="form-control" id="exampleSelectGender" name='type' required>
@@ -128,16 +128,10 @@
                           <option value='img'>Image</option>
                           <option value='vid'>Video</option>
                         </select>
-                      </div>
+                      </div-->
                       <div class="form-group">
                         <label>Upload File</label>
-                        <input type="file" name="img[]" class="file-upload-default" accept='video/*,image/*'  required>
-                        <div class="input-group col-xs-12">
-                          <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image" required>
-                          <span class="input-group-append">
-                            <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                          </span>
-                        </div>
+                        {{ form.file }}
                       </div>
                       <!--div class="form-group">
                         <label for="exampleInputCity1">City</label>
@@ -145,7 +139,9 @@
                       </div-->
                       <div class="form-group">
                         <label for="exampleTextarea1">Discripation</label>
-                        <textarea class="form-control" id="exampleTextarea1" name='discripation' rows="4"></textarea>
+                        <br/>
+                        {{ form.contain }}
+                        {{ form.media }}
                       </div>
                       <button type="submit" class="btn btn-primary mr-2">Submit</button>
                       <!--button class="btn btn-dark" disabled>Cancel</button-->

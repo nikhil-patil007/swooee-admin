@@ -111,16 +111,16 @@
                     <form id='updatecatform' class="forms-sample" action="{% url 'editedbanner' slug=bnr.slug %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
                       <div class="form-group">
                         <label for="exampleInputName1">Title</label>
-                        <input type="text" class="form-control" name='title' id="exampleInputName1" value='{{bnr.short_title}}' placeholder="Title On Banner" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputEmail3">Slug</label>
-                        <input type="text" class="form-control file-upload-info" Disabled name='slug' value='{{bnr.slug}}' id="exampleInputEmail3" placeholder="Category Slug" required>
+                        {{ form.short_title }}
                       </div>
                       <!--div class="form-group">
+                        <label for="exampleInputEmail3">Slug</label>
+                        {{ form.media }}
+                      </div>
+                      <div class="form-group">
                         <label for="exampleInputPassword4">Password</label>
                         <input type="text" class="form-control" id="exampleInputPassword4" placeholder="Password">
-                      </div-->
+                      </div>
                       <div class="form-group">
                         <label for="exampleSelectGender">File Extension</label>
                         <select class="form-control" id="exampleSelectGender" name='type' required>
@@ -175,14 +175,20 @@
                                   </div>
                               </div>
                           </div>
-                      </div>
+                      </div-->
                       <!--div class="form-group">
                         <label for="exampleInputCity1">City</label>
                         <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location">
                       </div-->
                       <div class="form-group">
+                        <label for="exampleTextarea1">Upload Image Or Video</label>
+                        {{ form.file }}
+                      </div>
+                      <div class="form-group">
                         <label for="exampleTextarea1">Discripation</label>
-                        <textarea class="form-control" id="exampleTextarea1" name='discripation' rows="4">{{bnr.discription}}</textarea>
+                        <br>
+                        {{ form.contain }}
+                        {{ form.media}}
                       </div>
                       <div class="col-12 grid-margin stretch-card">
                         <div class="card">

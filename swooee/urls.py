@@ -10,6 +10,8 @@ urlpatterns = [
     path('user_page/',views.adduserpage,name='adduserpage'),
     path('add_user/',views.adduser,name='adduser'),
     path('category_page/',views.categorypage,name='categorypage'),
+    path('subcategory_page/',views.subcategorypage,name='subcategorypage'),
+    path('childcategory_page/',views.childcategorypage,name='childcategorypage'),
     path('add_category/',views.add_category,name='addcategory'),
     path('all_Product/',views.all_products,name='allProduct'),
     path('all_user_page/',views.all_user,name='alluser'),
@@ -39,7 +41,6 @@ urlpatterns = [
     
     path('static_page_added/',views.add_static_page,name='staticpage'),
     path('all_static_page/',views.view_static_page,name='allstaticpage'),
-    path('<str:slug>/',views.viewpage,name='viewpage'),
     
 ]
 

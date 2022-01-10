@@ -121,6 +121,9 @@
                         <label for="exampleInputPassword4">Password</label>
                         <input type="text" class="form-control" id="exampleInputPassword4" placeholder="Password">
                       </div-->
+                      <!-- This Condition For Main Categories  -->
+                      {% if not cat.parent %}
+                      {% else %}
                       <div class="form-group">
                         <label for="exampleSelectGender">Add SubCategory</label>
                         <select class="form-control" id="exampleSelectGender" name='ccat' required>  
@@ -128,27 +131,34 @@
                           <option disabled>Last Select</option>
                           <option value="NULL">--Remove SubCategory--</option>
                           <ul>
+                            <!-- This Condition For Child Categories  -->
+                            {% if cat.parent.parent %}
                             {% for i in cats %}
                             {% if not i.parent %}
                             <option value='{{ i.category }}'><li>{{ i.category }}</li></option>
                             {% endif %}
                             {% for u in i.child.all %}
                             {% if not u.parent.parent %}
-                            {% comment %} {% if cat.parent %}
-                            <ul>
-                              <option value='{{ u.category }}' selected><li>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;{{ u.category }}</li></option>
-                            </ul>
-                            {% else %} {% endcomment %}
                             <ul>
                               <option value='{{ u.category }}'><li>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;{{ u.category }}</li></option>
                             </ul>
-                            {% comment %} {% endif %} {% endcomment %}
                             {% endif %}
                             {% endfor %}
                             {% endfor %}
+                            <!-- This Condition For Sub Categories in else  -->
+                            {% else %}
+                            {% for i in cats %}
+                            {% if not i.parent %}
+                            <option value='{{ i.category }}'><li>{{ i.category }}</li></option>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                            <!-- Categories Conditions End Here  -->
+
                           </ul> 
                         </select>
                       </div>
+                      {% endif %}
                       <div class="form-group">
                         <label>Image</label>
                         <!--img src="{{MEDIA_URL}}{{cat.Image.url}}" alt="{{cat.name}}" height=100 width=100-->

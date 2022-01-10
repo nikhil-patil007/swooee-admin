@@ -107,34 +107,25 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Add Page Form</h4>
-                    <p class="card-description"> Last Update At : {{getpage.updated_at}} </p>
                     <form id='updatecatform' class="forms-sample" action='{% url 'editpage' slug=getpage.slug %}'method="POST" enctype="multipart/form-data">{% csrf_token %}
                       <div class="form-group">
                         <label for="exampleInputName1">Name</label>
-                        <input type="text" class="form-control" name='pname' value='{{getpage.title}}' id="exampleInputName1" placeholder="Category Name" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputEmail3">Slug</label>
-                        <input type="text" class="form-control file-upload-info" disabled name='cslug' value='{{getpage.slug}}' id="exampleInputEmail3" placeholder="Category Slug" required>
+                        {% comment %} <input type="text" class="form-control" name='pname' id="exampleInputName1" placeholder="Page Title" required> {% endcomment %}
+                        {{ form.title }}
                       </div>
                       <!--div class="form-group">
-                        <label for="exampleInputPassword4">Password</label>
-                        <input type="text" class="form-control" id="exampleInputPassword4" placeholder="Password">
+                        <label for="exampleInputEmail3">Slug</label>
+                        <input type="text" class="form-control file-upload-info" disabled name='pslug' id="exampleInputEmail3" placeholder="Page Title Slug">
                       </div-->
                       <div class="form-group">
-                        <label for="exampleTextarea1">Discripation</label>
-                        <textarea class="form-control" id="exampleTextarea1" name='pdis' rows="30">{{getpage.discription}}</textarea>
+                        <label>Image</label>
+                        {{ form.Image }}
                       </div>
                       <div class="form-group">
-                        <label>Image</label>
-                        <!--img src="{{MEDIA_URL}}{{cat.Image.url}}" alt="{{cat.name}}" height=100 width=100-->
-                        <input type="file" name="pimg" accept="image/*" class="file-upload-default">
-                        <div class="input-group col-xs-12">
-                          <input type="text" class="form-control file-upload-info" id='addimg' disabled name='pimg' placeholder="Upload Image" value={{getpage.Image}}>
-                          <span class="input-group-append">
-                            <button class="file-upload-browse btn btn-primary" id='addimg' type="button">Upload</button>
-                          </span>
-                        </div>
+                        <label for="exampleTextarea1">Discripation</label>
+                        <br>
+                        {{ form.media }}
+                        {{ form.contain }}
                       </div>
                       <div class="col-12 grid-margin stretch-card">
                         <div class="card">
@@ -182,12 +173,7 @@
                             </div>
                         </div>
                       </div>
-                      <!--div class="form-group">
-                        <label for="exampleTextarea1">Discripation</label>
-                        <textarea class="form-control" id="exampleTextarea1" name='cdiscripation' rows="4"></textarea>
-                      </div-->
                       <button type="submit" class="btn btn-primary mr-2">Save</button>
-                      <!--button class="btn btn-dark" disabled>Cancel</button-->
                     </form>
                   </div>
                 </div>

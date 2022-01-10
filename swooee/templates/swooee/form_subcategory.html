@@ -16,11 +16,11 @@
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="page-header">
-              <h3 class="page-title"> Category Form </h3>
+              <h3 class="page-title"> SubCategory Form </h3>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="#">Category</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Category From elements</li>
+                  <li class="breadcrumb-item"><a href="#">SubCategory</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">SubCategory From elements</li>
                 </ol>
               </nav>
             </div>
@@ -106,8 +106,8 @@
               <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Category Form</h4>
-                    <p class="card-description"> Category Form </p>
+                    <h4 class="card-title">SubCategory Form</h4>
+                    <p class="card-description"> SubCategory Form </p>
                     <form id='updatecatform' class="forms-sample" action='{% url 'addcategory' %}'method="POST" enctype="multipart/form-data">{% csrf_token %}
                       <div class="form-group">
                         <label for="exampleInputName1">Name</label>
@@ -120,27 +120,27 @@
                       <div class="form-group">
                         <label for="exampleInputPassword4">Password</label>
                         <input type="text" class="form-control" id="exampleInputPassword4" placeholder="Password">
-                      </div>
+                      </div-->
                       <div class="form-group">
-                        <label for="exampleSelectGender">SubCategory</label>
+                        <label for="exampleSelectGender">Parent Category</label>
                         <select class="form-control" id="exampleSelectGender" name='ccat' required>
-                          <option Selected disabled>-Select Category-</option>
+                          <option Selected disabled>-Select Parent Category-</option>
                           <ul>
                             {% for i in cat %}
                                 {% if not i.parent %}
                                   <option value='{{ i.category }}'><li>{{ i.category }}</li></option>
                                 {% endif %}
-                              {% for u in i.child.all %}
+                              {% comment %} {% for u in i.child.all %}
                               {% if not u.parent.parent %}
                               <ul>
                                 <option value='{{ u.category }}'><li>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;{{ u.category }}</li></option>
                               </ul>
                               {% endif %}
-                              {% endfor %}
+                              {% endfor %} {% endcomment %}
                             {% endfor %}
                           </ul>
                       </select>
-                    </div-->
+                    </div>
                       <div class="form-group">
                         <label>Image</label>
                         <input type="file" name="cimg[]" accept="image/*" class="file-upload-default" required>
