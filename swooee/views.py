@@ -169,20 +169,20 @@ def add_product(request):
         product_img = request.FILES['img[]']
         # Amzon Links
         product_url = request.POST['paurl'] if request.POST['paurl'] else 'None'
-        product_min = request.POST['pamin'] if request.POST['pamin'] else 'None'
-        product_max = request.POST['pamax'] if request.POST['pamax'] else 'None'
+        product_min = request.POST['pamin'] if request.POST['pamin'] else '0.00'
+        product_max = request.POST['pamax'] if request.POST['pamax'] else '0.00'
         # Awin Links
         product_aurl = request.POST['pawurl'] if request.POST['pawurl'] else 'None'
-        product_amin = request.POST['pawmin'] if request.POST['pawmin'] else 'None'
-        product_amax = request.POST['pawmax'] if request.POST['pawmax'] else 'None'
+        product_amin = request.POST['pawmin'] if request.POST['pawmin'] else '0.00'
+        product_amax = request.POST['pawmax'] if request.POST['pawmax'] else '0.00'
         # Ebay Links
         product_eurl = request.POST['peurl'] if request.POST['peurl'] else 'None'
-        product_emin = request.POST['pemin'] if request.POST['pemin'] else 'None'
-        product_emax = request.POST['pemax'] if request.POST['pemax'] else 'None'
+        product_emin = request.POST['pemin'] if request.POST['pemin'] else '0.00'
+        product_emax = request.POST['pemax'] if request.POST['pemax'] else '0.00'
         # Walmart Links
         product_wurl = request.POST['pwurl'] if request.POST['pwurl'] else 'None'
-        product_wmin = request.POST['pwmin'] if request.POST['pwmin'] else 'None'
-        product_wmax = request.POST['pwmax'] if request.POST['pwmax'] else 'None'
+        product_wmin = request.POST['pwmin'] if request.POST['pwmin'] else '0.00'
+        product_wmax = request.POST['pwmax'] if request.POST['pwmax'] else '0.00'
         # Youtube Links
         product_youtube = request.POST['pyoutube'] if request.POST['pyoutube'] else 'None'
                 
@@ -441,12 +441,9 @@ def adduser(request):
             lname = request.POST['lname']
             passwrd = request.POST['password']
             image = request.FILES['img[]']
-            try :
-                # if Value Is 1 == Mail is Sent
-                chek =  request.POST['check']
-            except:
-                # If Value Is 0 == Mail is not sent
-                chek = '0'
+            # try:
+            # except:
+            #     check = '0'
             
             slug = fname + ' ' + lname
             usr_em = User.objects.filter(email=email)
@@ -462,16 +459,19 @@ def adduser(request):
                     last_name = lname,
                     password = passwrd,
                     Image = image,
+                    checkbox = '0',
                     created_at = date1,
                     updated_at = date1,
                 )
                 users.save()
+                slug2 = users.slug 
                 # Email sending
+                chek =  request.POST['check']
                 if chek == '1':
                     current_site = get_current_site(request)
                     mail_subject = 'Activate 🛎️ your account From Swooee.'
                     message = render_to_string('head_foot/email.html', {
-                                'user': email,
+                                'user': slug2,
                                 'fname': fname,
                                 'lname' : lname,
                                 'domain': current_site.domain,
@@ -484,6 +484,16 @@ def adduser(request):
                 return redirect('alluser')
     else:
         return redirect('login')
+
+# Verify User Contain :
+def verify(request,slug):
+    getusr = User.objects.get(slug=slug)
+    if getusr.checkbox == '0':
+        getusr.checkbox = '1'
+        getusr.save()
+        return HttpResponse('Verified Successfully...')
+    else:
+        return HttpResponse('Already Verified')
 
 # Edit User Page :
 def edit_userpage(request,slug):
@@ -525,17 +535,16 @@ def edit_user(request,slug):
         
         try : 
             check = request.POST['check']
-            usrdata.checkbox = check
         except:
-            usrdata.checkbox = usrdata.checkbox
+            check = '0'
         usrdata.status = request.POST['radiobtn'] if request.POST['radiobtn'] else usrdata.status
         try:
             if check == '1':
-                usrdata.checkbox = '1'
                 current_site = get_current_site(request)
-                mail_subject = 'Activate your account From Swooee.'
+                mail_subject = 'Activate 🛎️ your account From Swooee.'
+                # mail_subject = 'Activate your account From Swooee.'
                 message = render_to_string('head_foot/email.html', {
-                            'user': email,
+                            'user': usrdata.first_name + '-' + usrdata.last_name,
                             'fname': usrdata.first_name,
                             'lname' : usrdata.first_name,
                             'domain': current_site.domain,
