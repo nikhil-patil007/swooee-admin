@@ -472,7 +472,7 @@ def adduser(request):
                     current_site = get_current_site(request)
                     mail_subject = 'Activate 🛎️ your account From Swooee.'
                     message = render_to_string('head_foot/email.html', {
-                                'user': usr_em,
+                                'user': email,
                                 'fname': fname,
                                 'lname' : lname,
                                 'domain': current_site.domain,
@@ -530,22 +530,23 @@ def edit_user(request,slug):
         except:
             usrdata.checkbox = usrdata.checkbox
         usrdata.status = request.POST['radiobtn'] if request.POST['radiobtn'] else usrdata.status
-        try:
-            if check == '1':
-                usrdata.checkbox = '1'
-                current_site = get_current_site(request)
-                mail_subject = 'Activate your account From Swooee.'
-                message = render_to_string('head_foot/email.html', {
-                            'user': user,
-                            'fname': usrdata.first_name,
-                            'lname' : usrdata.first_name,
-                            'domain': current_site.domain,
-                        })
-                email_from = settings.EMAIL_HOST_USER
-                to_email = [email,]
-                send_mail(mail_subject, message, email_from, to_email)
-        except:
-            pass
+        usrdata.checkbox = '1'
+        current_site = get_current_site(request)
+        mail_subject = 'Activate your account From Swooee.'
+        message = render_to_string('head_foot/email.html', {
+                    'user': email,
+                    'fname': usrdata.first_name,
+                    'lname' : usrdata.first_name,
+                    'domain': current_site.domain,
+                })
+        email_from = settings.EMAIL_HOST_USER
+        to_email = [email,]
+        send_mail(mail_subject, message, email_from, to_email)
+        # try:
+        #     if check == '1':
+        #         pass
+        #     except:
+        #     pass
         usrdata.save()
         return redirect('alluser')
     else:
