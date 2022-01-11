@@ -154,7 +154,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"))
 
 from django.contrib.messages import constants as messages
 
@@ -163,20 +162,7 @@ MESSAGE_TAG = {
     messages.ERROR :'danger',
     messages.WARNING :'warning',
 }
-# MIDDLEWARE_CLASSES = (
-#     # Simplified static file serving.
-#     # https://warehouse.python.org/project/whitenoise/
-#     'whitenoise.middleware.WhiteNoiseMiddleware',
-# STATIC_URL = '/static/'
 
-
-# STATIC_ROOT = os.path.join(BASE_DIR, "your_static_folder")
-
-# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
-# MEDIA_URL = "/media/"
-
-# MEDIA_ROOT = os.path.join(BASE_DIR, "your_media_folder")
 
 # Image Or Path Url
 MEDIA_URL = '/media/'
