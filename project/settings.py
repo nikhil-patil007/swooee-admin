@@ -167,8 +167,8 @@ MESSAGE_TAG = {
 
 # Image Or Path Url
 MEDIA_URL = '/media/'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+MEDIAFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Email sending
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

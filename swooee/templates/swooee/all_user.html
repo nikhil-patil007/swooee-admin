@@ -165,7 +165,12 @@
                             <td> 
                               {{i.username}}
                             </td>
-                            <td> {{i.first_name}} {{i.last_name}} </td>
+                            <td>
+                              {{i.first_name}} {{i.last_name}}
+                              {% if i.checkbox == '1' %}
+                              <i style='color:green' class='mdi mdi-check-circle-outline'></i>
+                              {% endif %}
+                            </td>
                             <td> {{i.email}} </td>
                             <td>{{i.created_at}}</td>
                             <td>{{i.updated_at}}</td>

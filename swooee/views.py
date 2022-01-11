@@ -434,6 +434,11 @@ def edit_page(request,slug):
 # Add User Contains : 
 def adduser(request):
     if 'id' in request.session:
+        import random
+        import string
+
+        N = 10
+        code = ''.join(random.choices(string.ascii_letters + string.digits, k = N))
         if request.method == "POST":
             usrname = request.POST['username']
             email = request.POST['email'].casefold()
@@ -460,39 +465,46 @@ def adduser(request):
                     password = passwrd,
                     Image = image,
                     checkbox = '0',
+                    v_code = code,
                     created_at = date1,
                     updated_at = date1,
                 )
                 users.save()
-                slug2 = users.slug 
-                # Email sending
-                current_site = get_current_site(request)
-                mail_subject = 'Activate 🛎️ your account From Swooee.'
-                message = render_to_string('head_foot/email.html', {
-                            'user': slug2,
-                            'fname': fname,
-                            'lname' : lname,
-                            'domain': current_site.domain,
-                            'token': fname + '-' + lname,
-                        })
-                email_from = settings.EMAIL_HOST_USER
-                to_email = [email,]
-                send_mail(mail_subject, message, email_from, to_email)
-                # return HttpResponse('Please confirm your email address to complete the registration')
+                slug2 = users.v_code 
+                try:
+                    check = request.POST['check']
+                    # Email sending
+                    if check == '1':
+                        current_site = get_current_site(request)
+                        mail_subject = 'Activate 🛎️ your account From Swooee.'
+                        message = render_to_string('head_foot/email.html', {
+                                    'user': slug2,
+                                    'fname': fname,
+                                    'lname' : lname,
+                                    'domain': current_site.domain,
+                                    'token': fname + '-' + lname,
+                                })
+                        email_from = settings.EMAIL_HOST_USER
+                        to_email = [email,]
+                        send_mail(mail_subject, message, email_from, to_email)
+                        return HttpResponse('Please confirm your email address to complete the registration')
+                except:
+                    pass
                 return redirect('alluser')
     else:
         return redirect('login')
 
 # Verify User Contain :
 def verify(request,slug):
-    getusr = User.objects.get(slug=slug)
-    if getusr.checkbox == '0':
-        getusr.checkbox = '1'
-        getusr.save()
-        return HttpResponse('Verified Successfully...')
-    else:
-        return HttpResponse('Already Verified')
-
+    try:
+        getusr = User.objects.get(v_code=slug)
+        if getusr.v_code:
+            getusr.checkbox = '1'
+            getusr.save()
+            return HttpResponse('Verified Successfully...')
+    except:
+        return HttpResponse('Link Expired')
+    
 # Edit User Page :
 def edit_userpage(request,slug):
     if 'id' in request.session:
@@ -508,7 +520,13 @@ def edit_userpage(request,slug):
 # Update User Function :
 def edit_user(request,slug):
     if  'id' in request.session:
+        import random
+        import string
+
+        N = 10
+        code = ''.join(random.choices(string.ascii_letters + string.digits, k = N))
         usrdata = User.objects.get(slug=slug)
+        usrdata.v_code = code
         email =request.POST['email'].casefold()
         usrdata.username = request.POST['username'] if request.POST['username'] else usrdata.username
         usrdata.first_name = request.POST['fname'] if request.POST['fname'] else usrdata.first_name
@@ -537,7 +555,7 @@ def edit_user(request,slug):
             check = '0'
         usrdata.status = request.POST['radiobtn'] if request.POST['radiobtn'] else usrdata.status
         usrdata.save()
-        slug2 = usrdata.slug
+        slug2 = usrdata.v_code
         try:
             if check == '1':
                 current_site = get_current_site(request)
@@ -546,7 +564,7 @@ def edit_user(request,slug):
                 message = render_to_string('head_foot/email.html', {
                             'user': slug2,
                             'fname': usrdata.first_name,
-                            'lname' : usrdata.first_name,
+                            'lname' : usrdata.last_name,
                             'domain': current_site.domain,
                         })
                 email_from = settings.EMAIL_HOST_USER

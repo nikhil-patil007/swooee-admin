@@ -27,6 +27,7 @@ class User(models.Model):
     created_at = models.DateTimeField(default=datetime.now, null=True, blank=True)
     updated_at = models.DateTimeField(default=datetime.now, null=True, blank=True)
     checkbox = models.CharField(max_length=1,default='Not Verified')
+    v_code = models.CharField(max_length=10, null=True, blank=True)
     Image = models.ImageField(upload_to="userimages/",default='default-product.png', blank=True)
     status = models.CharField(max_length=1,default=0)
     

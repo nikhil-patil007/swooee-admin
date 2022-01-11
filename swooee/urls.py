@@ -39,6 +39,8 @@ urlpatterns = [
     
     path('add_page/',views.staticpage,name='static'),
     
+    path('Verified-user/<str:slug>/',views.verify,name='varify'),
+    
     path('static_page_added/',views.add_static_page,name='staticpage'),
     path('all_static_page/',views.view_static_page,name='allstaticpage'),
     

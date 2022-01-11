@@ -1,8 +1,8 @@
 {% autoescape off %}
 Hi {{fname}} {{lname}},
 Please click on the link to confirm your registration,
-http://{{ domain }}{% url 'home' %}
+http://{{ domain }}{% url 'varify' slug=user %}   click on this link
+
+<b>Regard,</b>
+Swooee Admin,
 {% endautoescape %}
-
-
-
