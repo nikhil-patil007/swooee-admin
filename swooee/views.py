@@ -466,20 +466,18 @@ def adduser(request):
                 users.save()
                 slug2 = users.slug 
                 # Email sending
-                chek =  request.POST['check']
-                if chek == '1':
-                    current_site = get_current_site(request)
-                    mail_subject = 'Activate 🛎️ your account From Swooee.'
-                    message = render_to_string('head_foot/email.html', {
-                                'user': slug2,
-                                'fname': fname,
-                                'lname' : lname,
-                                'domain': current_site.domain,
-                                'token': fname + '-' + lname,
-                            })
-                    email_from = settings.EMAIL_HOST_USER
-                    to_email = [email,]
-                    send_mail(mail_subject, message, email_from, to_email)
+                current_site = get_current_site(request)
+                mail_subject = 'Activate 🛎️ your account From Swooee.'
+                message = render_to_string('head_foot/email.html', {
+                            'user': slug2,
+                            'fname': fname,
+                            'lname' : lname,
+                            'domain': current_site.domain,
+                            'token': fname + '-' + lname,
+                        })
+                email_from = settings.EMAIL_HOST_USER
+                to_email = [email,]
+                send_mail(mail_subject, message, email_from, to_email)
                 # return HttpResponse('Please confirm your email address to complete the registration')
                 return redirect('alluser')
     else:
@@ -538,13 +536,15 @@ def edit_user(request,slug):
         except:
             check = '0'
         usrdata.status = request.POST['radiobtn'] if request.POST['radiobtn'] else usrdata.status
+        usrdata.save()
+        slug2 = usrdata.slug
         try:
             if check == '1':
                 current_site = get_current_site(request)
                 mail_subject = 'Activate 🛎️ your account From Swooee.'
                 # mail_subject = 'Activate your account From Swooee.'
                 message = render_to_string('head_foot/email.html', {
-                            'user': usrdata.first_name + '-' + usrdata.last_name,
+                            'user': slug2,
                             'fname': usrdata.first_name,
                             'lname' : usrdata.first_name,
                             'domain': current_site.domain,
@@ -554,7 +554,6 @@ def edit_user(request,slug):
                 send_mail(mail_subject, message, email_from, to_email)
         except:
             pass
-        usrdata.save()
         return redirect('alluser')
     else:
         return redirect('login')
