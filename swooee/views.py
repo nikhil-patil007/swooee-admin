@@ -449,7 +449,7 @@ def adduser(request):
                 chek = '0'
             
             slug = fname + ' ' + lname
-            usr_em = user.objects.filter(email=email)
+            usr_em = User.objects.filter(email=email)
             if len(usr_em) > 0:
                 messages.warning(request, 'Email Is Already Use')
                 return redirect('adduserpage')
@@ -472,7 +472,7 @@ def adduser(request):
                     current_site = get_current_site(request)
                     mail_subject = 'Activate 🛎️ your account From Swooee.'
                     message = render_to_string('head_foot/email.html', {
-                                'user': user,
+                                'user': usr_em,
                                 'fname': fname,
                                 'lname' : lname,
                                 'domain': current_site.domain,
